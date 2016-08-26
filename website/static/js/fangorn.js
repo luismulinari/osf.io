@@ -941,7 +941,7 @@ function _createFolder(event, dismissCallback, helpText) {
     var extra = {};
     var path = (parent.data.path || '/') + val + '/';
 
-    if (parent.data.provider === 'github') {
+    if ((parent.data.provider === 'github') || (parent.data.provider === 'gitlab')) {
         extra.branch = parent.data.branch;
     }
 
@@ -949,7 +949,7 @@ function _createFolder(event, dismissCallback, helpText) {
         method: 'POST',
         background: true,
         config: $osf.setXHRAuthorization,
-        url: waterbutler.buildCreateFolderUrl(path, parent.data.provider, parent.data.nodeId)
+        url: waterbutler.buildCreateFolderUrl(path, parent.data.provider, parent.data.nodeId, extra)
     }).then(function(item) {
         inheritFromParent({data: item}, parent, ['branch']);
         item = tb.createItem(item, parent.id);
